@@ -41,11 +41,14 @@ while True:
             "5-Alterar senha.\n" \
             "6-Sair. \n")
         if opcao=="1":
-            print(f"Seu saldo atual é de{saldo_inicial}")
+            print(f"Seu saldo atual é de {saldo_inicial} e o seu limite é {limite_saldo}")
         elif opcao=="2":
             valor_a_sacr=float(input("Entre com o valor a ser sacado: "))
             if valor_a_sacr<= (saldo_inicial+limite_saldo):
                 print("Saldo liberado, retire seu valor!")
+                novo_saldo= saldo_inicial+limite_saldo-valor_a_sacr
+                print(f"Seu novo saldo é {novo_saldo} ")
+                saldo_inicial=novo_saldo
             else:
                 print("Saldo insuficiente!")
         elif opcao=="3":
@@ -56,14 +59,14 @@ while True:
                 print("Valor inválido!")    
         elif opcao=="4":
             boleto= float(input("Digite o valor do boleto: "))
-            if boleto <(saldo_inicial + limite_saldo):
+            if boleto <=(saldo_inicial + limite_saldo):
                 saldo_inicial-=boleto
             else:
-                print("Saldo insuficiente"
+                print("Saldo insuficiente")
         elif opcao=="5":
             senha_antiga=input("Digite a senha antiga: ")
             senha_nova1= input("Digite a nova senha: ")
-            senha_nova2=input("Repita a nova senha")
+            senha_nova2=input("Repita a nova senha: ")
             if senha_usuario==senha_antiga and senha_nova1== senha_nova2:
                 senha_nova1 == senha_usuario
                 print("Senha atualizado com sucesso.")
@@ -74,3 +77,4 @@ while True:
             break
         else:
             print("Opção Inválida!")
+            
