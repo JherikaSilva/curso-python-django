@@ -15,5 +15,5 @@ for produto,valor,qnt in vendas:
     produtos_unicos.add(produto) 
      
 print(f"As vendas maiores que $100 foram {vendas_filtradas}")
-print(f"E os produtos foram {produtos_unicos}")          
+print(f"\nE os produtos foram {produtos_unicos}")          
        
