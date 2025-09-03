@@ -10,13 +10,13 @@ while True:
      print("Para sair do programa digite -1 !")
      numeros=input("Digite um numero: ")
      if numeros!="-1":
-            if numeros.isdigit():
-                numeros=int(numeros)
+            if not numeros.isalpha():
+                numeros=int(numeros) 
                 if numeros >0 and numeros <=100:
                     lista.append(numeros)
                     soma+=numeros
                 else:
-                     print("Esse número não é valido e não será adicionado na lista e nem na soma, digite apenas números positivos!")  
+                     print("Esse número não é valido e não será adicionado na lista e nem na soma!")  
             else:
                  print("Somente números podem ser digitados!")           
      else:
