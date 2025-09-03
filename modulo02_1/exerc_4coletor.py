@@ -16,7 +16,7 @@ while True:
                     lista.append(numeros)
                     soma+=numeros
                 else:
-                     print("Esse número não é valido e não será adicionado na lista e nem na soma!")  
+                     print("Esse número não é valido e não será adicionado na lista e nem na soma, digite um número entre 0 e 100!")  
             else:
                  print("Somente números podem ser digitados!")           
      else:
