@@ -47,9 +47,4 @@ print("-"*30)
 print("     ANALISADOR DE FRASES     ")
 frase=input("Digite sua frase \n").lower()
 
-qnt_pal=quantidade_palavras(frase)
-qnt_vog=contar_vogais(frase)
-qnt_cons=contar_consoantes(frase)
-palidr=palindromo(frase)     
-
-print(f"A frase {frase}\ntem {qnt_pal} palavras\ntem {qnt_vog} vogais\ntem {qnt_cons} consoantes\nÉ um palíndromo ? { palidr}")   
+print(f"A frase {frase}\ntem {quantidade_palavras(frase)} palavras\ntem {contar_vogais(frase)} vogais\ntem {contar_consoantes(frase)} consoantes\nÉ um palíndromo ? {palindromo(frase)}")   
