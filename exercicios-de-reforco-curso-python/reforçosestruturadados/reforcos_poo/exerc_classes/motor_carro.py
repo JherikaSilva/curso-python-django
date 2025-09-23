@@ -1,6 +1,17 @@
-"""Crie duas classes: Motor e Carro.
-1. A classe Motor terá um atributo potencial.
-2. A classe Carro terá modelo. Ao criar um Carro, ele deve também criar um objeto Motor e
-guardá-lo como um de seus atributos (ex: self.motor = Motor(100)).
-Crie um método no Carro chamado exibir_potencia que imprime a potência do seu motor."""
+class Motor:
+    def __init__(self,potencial):
+        self.potencial=potencial
 
+
+class Carro:
+    def __init__(self,modelo):
+        self.modelo=modelo
+        self.motor=Motor(200)
+
+    def exibir_potencia(self):
+        return self.motor.potencial    
+
+
+carro=Carro("corola") 
+print(f"O carro modelo {carro.modelo} tem {carro.exibir_potencia()} de potência")
+       
