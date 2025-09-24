@@ -21,7 +21,7 @@ class Estudante(Pessoa):
 p_1=Pessoa("Marta", 25)
 est_1=Estudante("Jherika", 27, "Python")
 
-lista=[p_1, est_1]
+lista:list[Pessoa]=[p_1, est_1]
 
 for pess in lista:
     pess.apresentar()
