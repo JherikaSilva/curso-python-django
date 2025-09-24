@@ -30,7 +30,12 @@ musica_1=Musica("Oceano", 3.10, "Djavan")
 musica_2=Musica("Monalisa", 3.50, "Jorge Vercilo")
 video_1=Video("Flor de Lis", 3.25, "4K")
 
-dicionario:dict[Midia]={musica_1, musica_2, video_1}
+dicionario:dict={"musicas":[], "videos":[]}
+dicionario["musicas"].append(musica_1)  
+dicionario["musicas"].append(musica_2)
+dicionario["videos"].append(video_1)
 
-for mid in dicionario:
-    mid.exibir()
+
+for item in dicionario.values():
+    for mid in item:
+        mid.exibir()
