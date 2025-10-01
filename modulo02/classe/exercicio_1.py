@@ -1,4 +1,4 @@
-#Crie um programa que conte quantas vezes um numero especifico aparece em uma lista
+
 
 numeros=[1,6,7,9,6,3,6,6]
 resultado= numeros.count(6)
