@@ -1,5 +1,4 @@
-""": Crie um dicionário a partir de uma lista de números, onde a
-chave é o número e o valor é "par" ou "ímpar"."""
+
 
 lista_numeros={10:"par", 15:"impar", 20:"par", 25:"impar"}
 

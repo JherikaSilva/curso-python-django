@@ -1,5 +1,4 @@
-"""Crie um dicionário. Troque as chaves pelos valores e os valores
-pelas chaves. Dica: Os valores devem ser únicos para que isso funcione"""
+
 
 dicionario= {"jherika": 10, "pericles": 20, "nalva": 30 }
 
