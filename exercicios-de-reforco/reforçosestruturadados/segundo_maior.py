@@ -1,5 +1,4 @@
-#Encontre o segundo maior número em uma lista de números. O programa não pode usar o
-#método .sort() da lista.
+
 
 print("-------SEGUNDO MAIOR---------")
 numeros=[10,20,15,30,25,5,40]

@@ -1,6 +1,4 @@
-#Crie um programa que rotacione uma lista para a direita por um determinado número de posições. Os elementos que saem do final da lista devem ir para o início.
 
-#O número de posiçoes que ira rotacionar serão duas 
 print(" ROTACIONANDO POSIÇÕES")
 print("Iremos rotacinar duas posições do final para o início da sua lista!")
 
