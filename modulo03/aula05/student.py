@@ -18,18 +18,20 @@ class StudentModel:
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nome TEXT NOT NULL,
                 email TEXT NOT NULL UNIQUE
+                id_address INTEGER,
+                FOREING KEY (id_address) REFERENCES address (id)
             );
         """
         )
         self.db_conn.close()
 
-    def create_student(self, nome, email):
+    def create_student(self, nome, email, endereco):
         """Cria um novo aluno."""
         self.db_conn.connect()
         try:
             self.db_conn.cursor.execute(
-                "INSERT INTO alunos (nome, email) VALUES (?, ?);",
-                (nome, email),
+                "INSERT INTO alunos (nome, email, id_address) VALUES (?, ?, ?);",
+                (nome, email, endereco),
             )
             print(f"[SUCESSO] Aluno '{nome}' criado.")
         except sqlite3.IntegrityError:
