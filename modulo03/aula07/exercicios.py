@@ -4,21 +4,27 @@ class Inventario:
         self.lista_estoque=[]
 
     def adicionar_produto(self, produto, quantidade):
-        if produto not in self.lista_estoque:
-            item={
+        for item in self.lista_estoque:
+            if item["produto"] == produto:
+                item["quantidade"]+= quantidade
+                return self.lista_estoque
+                
+        item_novo={
                 "produto":produto,
                 "quantidade":quantidade
-            }
-            self.lista_estoque.append(item)
-        
-        if self.produto in self.lista_estoque:
-            self.lista_estoque[self.produto]=self.quantidade
-       
+                }
+        self.lista_estoque.append(item_novo)
+        return self.lista_estoque
+
+                
 
     def remover_produto(self, produto):
         try:
-            if produto in self.lista_estoque:
-                self.lista_estoque.remove(produto)
+            for item in self.lista_estoque:
+                if item["produto"] == produto:
+                    item_remover=item
+                    self.lista_estoque.remove(item_remover)
+                    return self.lista_estoque
 
         except ValueError:
             return "Produto não encontrado"      
