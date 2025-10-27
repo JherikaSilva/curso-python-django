@@ -51,6 +51,8 @@ class UserService:
         
         if action == "edit_self":
             return current_user_id==target_user_id
+        
+        return False
 
     def register_user(
         self,
@@ -76,7 +78,7 @@ class UserService:
             return False, "Nome inválido, deve conter apenas letras e não pode esta vazio"
         
         senha_hash= hash_senha(senha)
-        return self.user_model.create_user(senha_hash, email, nome_completo, perfil_acesso)
+        return self.user_model.create_user(senha_hash, email, nome_completo, perfil)
             
          
 
@@ -95,7 +97,9 @@ class UserService:
         if not email.strip() and senha.strip():
             if email.find_user_by_email():
                 senha.verificar_senha()
-                return "Login bem sucedido", _safe_user_data
+                usuario=self._find_user_by_email(email)
+                usuario_tratado=self._safe_user_data(usuario)
+                return f"Login bem sucedido", usuario_tratado
         
         else:
             return "Erro, login não autorizado"    
@@ -118,6 +122,15 @@ class UserService:
         if not self._is_authorized(current_user_id, current_user_profile, target_user_id):
             return False, "Acesso negado"
         
+        update_data = {}
+
+        if new_data.get('senha'):
+            update_data['senha'] = hash_senha(new_data['senha'])
+
+        if update_data:
+            return self.user_model.update_user_by_id(target_user_id, update_data)
+        return False, "Nada para atualizar"
+        
 
     def delete_user(
         self,
@@ -131,14 +144,30 @@ class UserService:
         Senão chame o método delete_user_by_id, passando o id do usuários
         """
 
+        if current_user_profile=="Diretoria":
+            apagar= self.delete_user_by_id(user_id)
+            if apagar:
+                return True, f"Usuário com ID {user_id} deletado com sucesso"
+            else:
+                return False, f"Falha ao deletar o usuário com ID {user_id}"
+        else:
+            return False, "Acesso negado"
+
     def get_user_by_id(self, user_id: int) -> dict | None:
         """
         Método para pegar um usuarios pelo id
         Retorne o usuarios apos passar pelo método _safe_user_data
         """
+        usuario=self.find_user_by_id(user_id)
+        if usuario:
+            resultado_busca=self._safe_user_data(usuario)
+            return resultado_busca
+        else:
+            return None
 
-    def get_all_users(self) -> list[dict | None]:
+    def get_all_users_tratado(self) -> list[dict | None]:
         """
         Método para retornar todos os usuários.
         retorne todos os usuáriso apos passar pelo método _safe_user_data
         """
+        
