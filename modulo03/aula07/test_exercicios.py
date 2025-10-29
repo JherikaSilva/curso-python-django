@@ -38,7 +38,29 @@ def test_remover_produto_ValueError():
     rem.adicionar_produto("Martelo", 10)
     rem.adicionar_produto("Faca", 20)
 
-    rem.remover_produto("Relogio")
-    with pytest.raises(ValueError) as r: 
-        rem.remover_produto("Relogio")
-        assert "Produto não encontrado"  in str(r.value) 
+    resultado= rem.remover_produto("Relogio")
+    
+    assert resultado=="Produto não encontrado" 
+
+def test_vender_item():
+    adc=Inventario()
+
+    adc.adicionar_produto("Martelo", 10)
+    adc.adicionar_produto("Faca", 20)        
+
+    adc.vender_item("Martelo", 5)
+
+    resultado_obtido= adc.lista_estoque
+    resultado_esperado=[{"produto": "Martelo" , "quantidade": 5},{"produto": "Faca" , "quantidade": 20}]
+
+    
+    assert resultado_obtido== resultado_esperado
+
+def test_vender_item_ValueError():
+    adc=Inventario()
+
+    adc.adicionar_produto("Martelo", 10)
+    adc.adicionar_produto("Faca", 20)        
+    
+    resultado=adc.vender_item("Relogio", 5)
+    assert resultado== "Produto não encontrado"
