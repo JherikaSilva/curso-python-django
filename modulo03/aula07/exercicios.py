@@ -19,22 +19,27 @@ class Inventario:
                 
 
     def remover_produto(self, produto):
-        try:
-            for item in self.lista_estoque:
-                if item["produto"] == produto:
-                    item_remover=item
-                    self.lista_estoque.remove(item_remover)
-                    return self.lista_estoque
+        for item in self.lista_estoque:
+            if item["produto"] == produto:
+                self.lista_estoque.remove(item)
+                return self.lista_estoque
 
-        except ValueError:
-            return "Produto não encontrado"      
+    
+        raise ValueError("Produto não encontrado")
 
     def vender_item(self, nome_produto, quantidade_vendida):
-        if nome_produto in self.lista_estoque:
-            while self.quantidade >0:
-                for quant in self.lista_estoque:
-                    estoque= quant - quantidade_vendida
-                    self.quantidade= estoque
+        for produtos in self.lista_estoque:
+            if produtos["produto"] == nome_produto:
+                quant_estoque = produtos.get("quantidade", 0)
+                quant_estoque -= quantidade_vendida
+                produtos["quantidade"] = quant_estoque
+                return self.lista_estoque
+
+      
+        raise ValueError("Produto não encontrado")
+            
+
+
 
 
         
