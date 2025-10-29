@@ -31,11 +31,13 @@ class Inventario:
         for produtos in self.lista_estoque:
             if produtos["produto"] == nome_produto:
                 quant_estoque = produtos.get("quantidade", 0)
+                # Verifica se há estoque suficiente antes de realizar a venda
+                if quantidade_vendida > quant_estoque:
+                    raise ValueError("Quantidade indisponível")
                 quant_estoque -= quantidade_vendida
                 produtos["quantidade"] = quant_estoque
                 return self.lista_estoque
 
-      
         raise ValueError("Produto não encontrado")
             
 
