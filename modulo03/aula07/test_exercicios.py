@@ -10,7 +10,7 @@ def test_adicionar_produto_novo():
 
     assert resultado_obtido== resultado_esperado
 
-def adicionar_produto_existente():
+def test_adicionar_produto_existente():
     adc=Inventario()
     adc.adicionar_produto("Martelo", 10)
     adc.adicionar_produto("Martelo", 20)
@@ -37,10 +37,9 @@ def test_remover_produto_ValueError():
     rem=Inventario()
     rem.adicionar_produto("Martelo", 10)
     rem.adicionar_produto("Faca", 20)
-
-    resultado= rem.remover_produto("Relogio")
-    
-    assert resultado=="Produto não encontrado" 
+    with pytest.raises(ValueError) as r:
+        rem.remover_produto("Relogio")
+    assert "Produto não encontrado" in str(r.value)
 
 def test_vender_item():
     adc=Inventario()
@@ -61,6 +60,15 @@ def test_vender_item_ValueError():
 
     adc.adicionar_produto("Martelo", 10)
     adc.adicionar_produto("Faca", 20)        
-    
-    resultado=adc.vender_item("Relogio", 5)
-    assert resultado== "Produto não encontrado"
+    with pytest.raises(ValueError) as v:
+        adc.vender_item("Relogio", 5)
+    assert "Produto não encontrado" in str(v.value)
+
+
+def test_vender_item_quantidade_insuficiente():
+    adc = Inventario()
+    adc.adicionar_produto("Martelo", 5)
+
+    with pytest.raises(ValueError) as exc:
+        adc.vender_item("Martelo", 10)
+    assert "Quantidade indisponível" in str(exc.value)
