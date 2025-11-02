@@ -5,11 +5,11 @@ from hasher import hash_senha, verificar_senha
 
 class UserService:
 
-    def __init__(self):
+    def __init__(self, db_conn: object | None = None):
         """
-        crie um atributo que receberá a UserModel como composição
+        Recebe opcionalmente uma DatabaseConnection para injeção (tests).
         """
-        self.user_model=UserModel()
+        self.user_model = UserModel(db_conn)
 
     def _safe_user_data(self, user) -> dict | None:
         """
@@ -17,18 +17,13 @@ class UserService:
         verifique se o usuários existe e então retorne ele sem a sua senha
         caso ele não exista retorne None
         """
+       
         if user:
-            return{
-                'id': user[id],
-                'email': user['email'],
-                'nome_completo' : user['nome_completo'],
-                'perfil_acesso' : user ['perfil_acesso'],
-                'data_criacao' : user ['data_criacao'],
-                'data_atualizacao' : user ['data_atualizacao']
-                
-            }
-        else:
-            return None
+            user.pop("senha_hash", None)
+            return user
+        
+        return None
+    
 
     def _is_authorized(
         self,
