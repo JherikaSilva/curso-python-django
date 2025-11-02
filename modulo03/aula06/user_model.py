@@ -6,8 +6,15 @@ from database import DatabaseConnection
 
 class UserModel:
 
-    def __init__(self):
-        self.db_conn = DatabaseConnection()
+    def __init__(self, db_conn: DatabaseConnection | None = None):
+        """
+        Permite injetar uma conexão (por ex. para testes com :memory:).
+        Se nenhuma conexão for fornecida, cria uma nova DatabaseConnection padrão.
+        """
+        if db_conn is None:
+            self.db_conn = DatabaseConnection()
+        else:
+            self.db_conn = db_conn
         self._create_table()
 
     def _create_table(self):
