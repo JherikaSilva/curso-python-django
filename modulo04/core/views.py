@@ -8,4 +8,5 @@ def home(request):
 
 def ola(request):
     
-    return HttpResponse("<h1>Bem vindo!</h1>")
+    return HttpResponse("<h1>Bem vindo!</h1><p><input>LOGIN</input><br></h1><input>SENHA</input></p>")
+    
