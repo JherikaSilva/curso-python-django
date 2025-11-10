@@ -11,6 +11,23 @@
             <li>{{ tec }}</li>
         {% endfor %}
     </ul>
+    <hr><h2>Minha lista de Tarefas (do Banco de Dados):</h2>
+    <ul>
+        {% for tarefa in tarefas %}
+            <li>
+                {{ tarefa.titulo }}
+                {% if tarefa.concluida %}
+                    (✓ Concluída)
+                {% else %}
+                    (☐ Pendente)
+                {% endif %}
+                <br>
+                <small>Criada em: {{ tarefa.criada_em }}</small>
+            </li>
+        {% empty %}
+            <li>Você ainda não tem tarefas cadastradas.</li>
+        {% endfor %}
+    </ul>
     {% if nome_usuario == 'Júnior' %}
         <p>Este é um conteúdo especial para o Júnior!</p>
     {% endif %}
