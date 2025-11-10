@@ -8,7 +8,7 @@ def home(request):
 
     context={
         'nome_usuario':'Jherika',
-        'tecnologias': ['Python', 'Django', 'Models','Admin'],
+        'tecnologias': ['Python', 'Django', 'HTML', 'CSS','Models','Admin'],
         'tarefas': todas_as_tarefas
     }
     
