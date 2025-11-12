@@ -1,15 +1,33 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from.models import Tarefa
+from .forms import TarefaForm 
 
 def home(request):
+
+    if request.method== 'POST':
+        
+        form= TarefaForm(request.POST)
+
+    if form.is_valid():
+        
+        form.save()
+
+        return redirect('home')
     
-    todas_as_tarefas=Tarefa.objects.all()
+    else:
+
+        form=TarefaForm()
+
+
+    
+    todas_as_tarefas=Tarefa.objects.all().order_by('-criada_em')
 
     context={
         'nome_usuario':'Jherika',
         'tecnologias': ['Python', 'Django', 'HTML', 'CSS','Models','Admin'],
-        'tarefas': todas_as_tarefas
+        'tarefas': todas_as_tarefas,
+        'form': form,
     }
     
     return render(request, 'home.html', context)
