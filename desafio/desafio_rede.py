@@ -38,8 +38,8 @@ class RedeSocial:
             print("-" * 30 +"\n")     
         
         
-usuario_principal = Usuario("Jherika", "@jherika")     
-usuario_secundario = Usuario("Pericles", "@periclesjunior")   
+usuario_principal = Usuario("Jherika", "rainhadaprogramação")     
+usuario_secundario = Usuario("Pericles", "@reidaprogramação")   
 
 minha_rede_social = RedeSocial()
 
