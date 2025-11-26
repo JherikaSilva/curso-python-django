@@ -11,7 +11,7 @@ def home(request):
 
     if request.method== 'POST':
         
-        form= TarefaForm(request.POST)
+        form = TarefaForm(request.POST, user=request.user)
         
         if form.is_valid():
 
@@ -23,7 +23,8 @@ def home(request):
     
     else:
         
-        form=TarefaForm()
+        form = TarefaForm(user=request.user)
+
 
 
     
@@ -45,10 +46,16 @@ def concluir_tarefa(request, pk):
 
     if request.method == 'POST':
 
-        tarefa.concluida = True
-        tarefa.save()
-
-        messages.success(request, 'Parabéns! Tarefa concluída com sucesso!')
+        if not tarefa.concluida:
+            tarefa.concluida = True
+            tarefa.save()
+            messages.success(request, "Parabéns! Tarefa concluida com sucesso!")
+        else:
+       
+            tarefa.concluida = False
+            tarefa.save()
+            messages.warning(request,"Tarefa marcada como pendente")
+           
 
         return redirect('home')
 
