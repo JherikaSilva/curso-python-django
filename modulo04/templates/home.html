@@ -1,55 +1,105 @@
 {% extends 'base.html' %}
+
 {% block title %}
 Página Inicial - Meu Site
 {% endblock %}
+
 {% block content %}
-<h1>Olá, {{ nome_usuario }}!</h1>
-<p>Este HTML está separado do meu código Python.</p>
-<h3>Tecnologias que estou aprendendo:</h3>
-<ul>
-    {% for tec in tecnologias %}
-    <li>{{ tec }}</li>
+{% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <div class="message {{ message.tags }}">{{ message }}</div>
     {% endfor %}
-</ul>
-<hr>
-<h3>Nova Tarefa:</h3>
-<form method="POST">
+  </div>
+{% endif %}
+<h1 class="title">Olá, {{ user.username }}!</h1>
+
+<div class="card">
+  <h3 class="subtitle">Nova Tarefa</h3>
+  <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Adicionar Tarefa</button>
-</form>
-<hr>
-<hr>
-<h2>Minha lista de Tarefas (do Banco de Dados):</h2>
-<ul style="list-style: none; padding: 0;">
-    {% for tarefa in tarefas %}
-    <li style="margin-bottom: 15px; border: 1px solid #ccc; padding: 10px;">
-        {{ tarefa.titulo }}
-        {% if tarefa.concluida %}
-        <strong style="color: green;">(✓ Concluída)</strong>
-        {% else %}
-        <strong style="color: orange;">(☐ Pendente)</strong>
-        {% endif %}
-        <br>
-        <small>Criada em: {{ tarefa.criada_em|date:"d/m/Y H:i" }}</small>
-        <div style="margin-top:10px;">
-            <form action="{% url 'deletar_tarefa' tarefa.pk %}" method="POST" style="display: inline;">
-                {% csrf_token %}
-                <button type="submit">Deletar</button>
-            </form>
-            {% if not tarefa.concluida %}
-            <form action="{% url 'concluir_tarefa' tarefa.pk %}" method="POST" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit">Marcar como Concluída</button>
-            </form>
-            {% endif %}
-        </div>
-    </li>
-    {% empty %}
-    <li>Você ainda não tem tarefas cadastradas.</li>
+    <button type="submit" class="btn-primary">Adicionar Tarefa</button>
+  </form>
+</div>
+
+<div class="card">
+  <h3 class="subtitle">Novo Projeto</h3>
+  {% if user.is_authenticated %}
+  <form action ="{% url 'adicionar_projeto'%}" method="get">
+    <button type="submit" class="btn-primary">Adicionar Projeto</button>
+      </form>
+  {% else %}
+      <p class="empty-message">Você precisa estar logado para adicionar projetos.</p>
+  {% endif %}
+</div>
+</div>
+  <h3 class="subtitle">Tecnologias que estou aprendendo</h3>
+  {% if tecnologias %}
+  <ul class="tech-list">
+    {% for tecnologia in tecnologias %}
+    <li class="tech-item">{{ tecnologia }}</li>
     {% endfor %}
-</ul>
-{% if nome_usuario == 'Júnior' %}
-<p>Este é um conteúdo especial para o Júnior!</p>
-{% endif %}
+  </ul>
+  {% else %}
+  <p class="empty-message">Você não está aprendendo nenhuma tecnologia no momento.</p>
+  {% endif %}
+</div>
+
+
+<div class="card">
+  <h2 class="subtitle">Minha Lista de Tarefas</h2>
+
+  {% if tarefas %}
+  {% for tarefa in tarefas %}
+  <div class="task-card">
+
+    <p class="task-project">Projeto: <strong>{{ tarefa.project.titulo }}</strong></p>
+
+    <p class="task-title">
+      {{ tarefa.titulo }}
+      {% if tarefa.concluida %}
+      <strong class="status-concluida">(✔ Concluída)</strong>
+      {% else %}
+      <strong class="status-pendente">(☐ Pendente)</strong>
+      {% endif %}
+    </p>
+
+    <small class="task-date">
+      Criada em: {{ tarefa.criada_em|date:'d/m/Y H:i' }}
+    </small>
+
+    <div style="margin-top: 10px;">
+
+      
+      <form action="{% url 'deletar_tarefa' tarefa.pk %}" method="POST" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-delete">Deletar</button>
+      </form>
+
+      {% if not tarefa.concluida %}
+      
+      <form action="{% url 'concluir_tarefa' tarefa.pk %}" method="POST" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-concluir">Marcar como Concluída</button>
+      </form>
+      {% endif %}
+
+      {% if tarefa.concluida %}
+      
+      <form action="{% url 'concluir_tarefa' tarefa.pk %}" method="POST" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-pendente">Marcar como Pendente</button>
+      </form>
+      {% endif %}
+
+    </div>
+
+  </div>
+  {% endfor %}
+  {% else %}
+  <p class="empty-message">Você ainda não tem tarefas cadastradas.</p>
+  {% endif %}
+</div>
+
 {% endblock %}
