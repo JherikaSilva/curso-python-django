@@ -32,7 +32,7 @@ def home(request):
 
     context={
         'nome_usuario':request.user.username,
-        'tecnologias': ['Autenticação','ForeignKey','Login'],
+        'tecnologias': ['Autenticação','ForeignKey','Login','HTML','CSS','Django','SQL','Banco de Dados'],
         'tarefas': todas_as_tarefas,
         'form': form,
     }
