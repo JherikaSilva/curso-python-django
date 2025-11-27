@@ -10,21 +10,22 @@
 </head>
 
 <body>
-    <header>
-        <nav>
-            <a href="{% url 'home' %}">Home</a> |
+    <header class="navbar-fixed">
+        <nav >
+            <a href="{% url 'home' %}">Home</a>
+
             {% if user.is_authenticated %}
-            
-            <span>Olá, {{ user.username }}!</span> |
-            <form action="{% url 'logout' %}" method="POST" style="display: inline;">
+            <span>Olá, {{ user.username }}!</span>
+
+            <form action="{% url 'logout' %}" method="POST" class="logout-form">
                 {% csrf_token %}
-                <button type="submit"
-                    style="background:none; border:none; padding:0; color:blue; text-decoration:underline; cursor:pointer;">
-                    Sair (Logout)
+                <button type="submit" class="logout-btn">
+                    SAIR
                 </button>
             </form>
+
             {% else %}
-            <a href="{% url 'login' %}">Entrar (Login)</a> |
+            <a href="{% url 'login' %}">Entrar</a>
             <a href="{% url 'register' %}">Cadastre-se</a>
             {% endif %}
         </nav>
