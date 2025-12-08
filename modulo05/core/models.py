@@ -16,28 +16,20 @@ class Tarefa(models.Model):
     # Um usuário pode ter VÁRIAS tarefas
     # on_delete=CASCADE: Se o usuário for deletado, suas tarefas também são
     user = models.ForeignKey(
-    User,
+        User,
         on_delete=models.CASCADE,
+        null=True, # Permite NULL no banco
+        blank=True, # Permite vazio em formulários
         related_name='tarefas', # Permite user.tarefas.all()
         verbose_name='Usuário'
     )
     # CharField: Campo de texto com limite
-    titulo = models.CharField(
-        max_length=200,
-        verbose_name='Título'
-    )
+    titulo = models.CharField(max_length=200, verbose_name='Título')
     # BooleanField: Campo verdadeiro/falso
-    concluida = models.BooleanField(
-        default=False,
-        verbose_name='Concluída'
-    )
+    concluida = models.BooleanField(default=False, verbose_name='Concluída')
     # DateTimeField: Data e hora
     # auto_now_add=True: Preenche automaticamente na criação
-    criada_em = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Criada em'
-    )
-
+    criada_em = models.DateTimeField(auto_now_add=True, verbose_name='Criada em')
 class Meta:
     verbose_name = 'Tarefa'
     verbose_name_plural = 'Tarefas'
