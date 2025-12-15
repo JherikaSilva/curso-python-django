@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+
 class Tarefa(models.Model):
     """
     Model para representar uma tarefa de usuário.
@@ -18,8 +19,10 @@ class Tarefa(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        null=True, # Permite NULL no banco
-        blank=True, # Permite vazio em formulários
+        
+        
+        
+        
         related_name='tarefas', # Permite user.tarefas.all()
         verbose_name='Usuário'
     )
@@ -38,3 +41,5 @@ class Meta:
     def __str__(self):
         """Representação em string (usado no admin)"""
         return f"{self.titulo} ({'✓' if self.concluida else '✗'})"
+    
+    
