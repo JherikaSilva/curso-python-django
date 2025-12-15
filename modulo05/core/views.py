@@ -5,6 +5,10 @@ from rest_framework import status
 from .models import Tarefa
 from .serializers import TarefaSerializer
 from django.shortcuts import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import generics
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import CustomTokenObtainPairSerializer
 
 
 class ListaTarefasAPIView(APIView):
@@ -96,3 +100,42 @@ class DetalheTarefaAPIView(APIView):
         tarefa = self.get_object(pk)
         tarefa.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+class MinhaView(APIView):
+
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        print(f"Usuário autenticado: {request.user.username}")
+        
+
+class TarefaListCreateAPIView(generics.ListCreateAPIView):
+    """
+    Lista tarefas e permite a criação de novas tarefas.
+    PROTEGIDA: Requer autenticação JWT.
+    """
+    queryset = Tarefa.objects.all()
+    serializer_class = TarefaSerializer
+    permission_classes = [IsAuthenticated] # ← Proteção
+    # MÉTODO CHAVE: Injeta o usuário logado antes de salvar o objeto
+    def perform_create(self, serializer):
+        """
+        Associa a tarefa ao usuário logado (request.user) automaticamente.
+        """
+        # request.user é garantido como autenticado pelo IsAuthenticated
+        serializer.save(user=self.request.user)        
+
+
+class TarefaRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Detalhes de tarefa, atualização e exclusão.
+    PROTEGIDA: Requer autenticação JWT.
+    """
+    queryset = Tarefa.objects.all()
+    serializer_class = TarefaSerializer
+    permission_classes = [IsAuthenticated] 
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    """View que usa o serializer customizado."""
+    serializer_class = CustomTokenObtainPairSerializer
