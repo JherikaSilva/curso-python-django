@@ -5,6 +5,9 @@ from django.contrib.auth.decorators import login_required
 from .models import Tarefa
 from .forms import TarefaForm
 from django.contrib import messages 
+from django.http import JsonResponse, HttpResponseNotAllowed
+
+
 
 @login_required
 def home(request):
@@ -17,6 +20,7 @@ def home(request):
 
             tarefa = form.save(commit=False) 
             tarefa.user = request.user 
+            tarefa.full_clean()
             tarefa.save()
             
             return redirect('home')
@@ -85,3 +89,44 @@ def register(request):
 
     context = {'form': form}
     return render(request, 'register.html', context)
+
+def contagem_tarefas(request):
+    total = Tarefa.objects.count()
+    concluidas = Tarefa.objects.filter(concluida=True).count()
+    pendentes = Tarefa.objects.filter(concluida=False).count()
+
+    return JsonResponse({
+        "total": total,
+        "concluidas": concluidas,
+        "pendentes": pendentes
+    })
+    
+def duplicar_tarefa(request, tarefa_id):
+    if request.method != 'POST':
+        return HttpResponseNotAllowed(['POST'])
+
+    try:
+        tarefa = Tarefa.objects.get(id=tarefa_id)
+    except Tarefa.DoesNotExist:
+        return JsonResponse(
+            {"erro": "Tarefa não encontrada"},
+            status=404
+        )
+
+    nova_tarefa = Tarefa.objects.create(
+        titulo=f"{tarefa.titulo} (Cópia)",
+        descricao=tarefa.descricao,
+        prioridade=tarefa.prioridade,
+        prazo=tarefa.prazo,
+        concluida=False
+    )
+
+    return JsonResponse({
+        "mensagem": "Tarefa duplicada com sucesso",
+        "nova_tarefa_id": nova_tarefa.id
+    }, status=201)
+    
+    
+def lista_tarefas(request):
+    tarefas = Tarefa.objects.all()
+    return render(request, 'tarefas/lista.html', {'tarefas': tarefas})        
