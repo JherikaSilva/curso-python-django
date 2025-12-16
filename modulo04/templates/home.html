@@ -57,41 +57,61 @@ Página Inicial - Meu Site
     <p class="task-project">Projeto: <strong>{{ tarefa.project.titulo }}</strong></p>
 
     <p class="task-title">
-      {{ tarefa.titulo }}
-      {% if tarefa.concluida %}
-      <strong class="status-concluida">(✔ Concluída)</strong>
-      {% else %}
-      <strong class="status-pendente">(☐ Pendente)</strong>
-      {% endif %}
-    </p>
+  <strong>{{ tarefa.titulo }}</strong>
+</p>
 
-    <small class="task-date">
-      Criada em: {{ tarefa.criada_em|date:'d/m/Y H:i' }}
-    </small>
+{% if tarefa.descricao %}
+<p class="task-desc">
+  {{ tarefa.descricao }}
+</p>
+{% endif %}
+
+<p class="task-info">
+  Prioridade: <strong>{{ tarefa.get_prioridade_display }}</strong><br>
+  Prazo: <strong>{{ tarefa.prazo|date:"d/m/Y" }}</strong>
+</p>
+
+<p class="task-status">
+  {% if tarefa.concluida %}
+    <span class="status-concluida">
+      ✔ Concluída em {{ tarefa.data_conclusao|date:"d/m/Y H:i" }}
+    </span>
+  {% else %}
+    <span class="status-pendente">☐ Pendente</span>
+  {% endif %}
+</p>
+
+<small class="task-date">
+  Criada em: {{ tarefa.criada_em|date:'d/m/Y H:i' }}
+</small>
 
     <div style="margin-top: 10px;">
 
-      
-      <form action="{% url 'deletar_tarefa' tarefa.pk %}" method="POST" style="display: inline;">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-delete">Deletar</button>
-      </form>
+  <form action="{% url 'deletar_tarefa' tarefa.pk %}" method="POST" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-delete">Deletar</button>
+  </form>
 
-      {% if not tarefa.concluida %}
-      
-      <form action="{% url 'concluir_tarefa' tarefa.pk %}" method="POST" style="display: inline;">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-concluir">Marcar como Concluída</button>
-      </form>
-      {% endif %}
+  <form action="{% url 'duplicar_tarefa' tarefa.pk %}" method="POST" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-duplicar">Duplicar</button>
+  </form>
 
-      {% if tarefa.concluida %}
-      
-      <form action="{% url 'concluir_tarefa' tarefa.pk %}" method="POST" style="display: inline;">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-pendente">Marcar como Pendente</button>
-      </form>
-      {% endif %}
+  {% if not tarefa.concluida %}
+  <form action="{% url 'concluir_tarefa' tarefa.pk %}" method="POST" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-concluir">Marcar como Concluída</button>
+  </form>
+  {% endif %}
+
+  {% if tarefa.concluida %}
+  <form action="{% url 'concluir_tarefa' tarefa.pk %}" method="POST" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-pendente">Marcar como Pendente</button>
+  </form>
+  {% endif %}
+
+</div>
 
     </div>
 
