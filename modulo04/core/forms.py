@@ -14,6 +14,8 @@ class TarefaForm(forms.ModelForm):
             self.fields['project'].queryset = Project.objects.filter(user=user)
 
     class Meta:
-        
         model = Tarefa
-        fields = ['titulo', 'project']
+        fields = ['titulo','descricao','project', 'prazo','prioridade','concluida']
+        widgets = {
+            'prazo': forms.DateInput(attrs={'type': 'date'})
+        }
